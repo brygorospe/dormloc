@@ -56,6 +56,25 @@ $config = array(
 		),
 	),
 
+	// Create Dorm
+	'dorm/create' => array(
+		array(
+			'field'		=> 'name',
+			'label'		=> 'Name',
+			'rules'		=> 'required',
+		),
+		array(
+			'field'		=> 'latitude',
+			'label'		=> 'Latitude',
+			'rules'		=> 'required',
+		),
+		array(
+			'field'		=> 'longitude',
+			'label'		=> 'Longitude',
+			'rules'		=> 'required',
+		)
+	),
+
 	// Reset User Password
 	'user/reset_password' => array(
 		array(

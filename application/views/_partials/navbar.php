@@ -11,7 +11,7 @@
 		<a class="navbar-brand" href=""><?php echo $site_name; ?></a>
 	</div>
 
-	<div class="navbar-collapse collapse">
+	<?php /*<div class="navbar-collapse collapse">
 
 		<ul class="nav navbar-nav">
 			<?php foreach ($menu as $parent => $parent_params): ?>
@@ -46,7 +46,7 @@
 
 		<?php $this->load->view('_partials/language_switcher'); ?>
 		
-	</div>
+	</div> */ ?>
 
 </div>
 </nav>

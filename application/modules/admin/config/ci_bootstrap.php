@@ -74,6 +74,15 @@ $config['ci_bootstrap'] = array(
 				'User Groups'	=> 'user/group',
 			)
 		),
+		'dorm' => array(
+			'name'		=> 'Dorm',
+			'url'		=> 'dorm',
+			'icon'		=> 'fa fa-users',
+			'children'  => array(
+				'List'			=> 'dorm',
+				'Create'		=> 'dorm/create'
+			)
+		),
 		'panel' => array(
 			'name'		=> 'Admin Panel',
 			'url'		=> 'panel',
@@ -104,8 +113,11 @@ $config['ci_bootstrap'] = array(
 
 	// Restricted pages
 	'page_auth' => array(
-		'user/create'				=> array('webmaster', 'admin', 'manager'),
-		'user/group'				=> array('webmaster', 'admin', 'manager'),
+		'user/create'				=> array('webmaster'),
+		'user/group'				=> array('webmaster'),
+		'user'						=> array('webmaster'),
+		'dorm'						=> array('webmaster', 'admin'),
+		'dorm/create'				=> array('webmaster', 'admin'),
 		'panel'						=> array('webmaster'),
 		'panel/admin_user'			=> array('webmaster'),
 		'panel/admin_user_create'	=> array('webmaster'),
@@ -135,7 +147,7 @@ $config['ci_bootstrap'] = array(
 			'url'		=> '',
 			'target'	=> '_blank',
 			'color'		=> 'text-aqua'
-		),
+		)/*,
 		array(
 			'auth'		=> array('webmaster', 'admin'),
 			'name'		=> 'API Site',
@@ -149,7 +161,7 @@ $config['ci_bootstrap'] = array(
 			'url'		=> CI_BOOTSTRAP_REPO,
 			'target'	=> '_blank',
 			'color'		=> 'text-green'
-		),
+		),*/
 	),
 
 	// Debug tools
