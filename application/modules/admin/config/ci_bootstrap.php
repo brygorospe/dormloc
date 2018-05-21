@@ -64,7 +64,7 @@ $config['ci_bootstrap'] = array(
 			'url'		=> '',
 			'icon'		=> 'fa fa-home',
 		),
-		'user' => array(
+		/*'user' => array(
 			'name'		=> 'Users',
 			'url'		=> 'user',
 			'icon'		=> 'fa fa-users',
@@ -73,7 +73,7 @@ $config['ci_bootstrap'] = array(
 				'Create'		=> 'user/create',
 				'User Groups'	=> 'user/group',
 			)
-		),
+		),*/
 		'dorm' => array(
 			'name'		=> 'Dorm',
 			'url'		=> 'dorm',
@@ -93,14 +93,14 @@ $config['ci_bootstrap'] = array(
 				'Admin User Groups'		=> 'panel/admin_user_group',
 			)
 		),
-		'util' => array(
+		/*'util' => array(
 			'name'		=> 'Utilities',
 			'url'		=> 'util',
 			'icon'		=> 'fa fa-cogs',
 			'children'  => array(
 				'Database Versions'		=> 'util/list_db',
 			)
-		),
+		),*/
 		'logout' => array(
 			'name'		=> 'Sign Out',
 			'url'		=> 'panel/logout',
@@ -143,7 +143,7 @@ $config['ci_bootstrap'] = array(
 	'useful_links' => array(
 		array(
 			'auth'		=> array('webmaster', 'admin', 'manager', 'staff'),
-			'name'		=> 'Frontend Website',
+			'name'		=> 'Dorm Locator Map',
 			'url'		=> '',
 			'target'	=> '_blank',
 			'color'		=> 'text-aqua'

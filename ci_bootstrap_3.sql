@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2018 at 03:18 AM
+-- Generation Time: May 21, 2018 at 06:00 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.4
 
@@ -40,9 +40,7 @@ CREATE TABLE `admin_groups` (
 
 INSERT INTO `admin_groups` (`id`, `name`, `description`) VALUES
 (1, 'webmaster', 'Webmaster'),
-(2, 'admin', 'Administrator'),
-(3, 'manager', 'Manager'),
-(4, 'staff', 'Staff');
+(2, 'admin', 'Administrator');
 
 -- --------------------------------------------------------
 
@@ -86,10 +84,9 @@ CREATE TABLE `admin_users` (
 --
 
 INSERT INTO `admin_users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`) VALUES
-(1, '127.0.0.1', 'webmaster', '$2y$08$/X5gzWjesYi78GqeAv5tA.dVGBVP7C1e1PzqnYCVe5s1qhlDIPPES', NULL, NULL, NULL, NULL, NULL, 'lvbRZ1comAYJwUsuwmZORO', 1451900190, 1525705245, 1, 'Webmaster', ''),
-(2, '127.0.0.1', 'admin', '$2y$08$7Bkco6JXtC3Hu6g9ngLZDuHsFLvT7cyAxiz1FzxlX5vwccvRT7nKW', NULL, NULL, NULL, NULL, NULL, 'gz7cdK/UUqTxVKSknFWLI.', 1451900228, 1525705596, 1, 'Admin', ''),
-(3, '127.0.0.1', 'manager', '$2y$08$snzIJdFXvg/rSHe0SndIAuvZyjktkjUxBXkrrGdkPy1K6r5r/dMLa', NULL, NULL, NULL, NULL, NULL, NULL, 1451900430, 1465489585, 1, 'Manager', ''),
-(4, '127.0.0.1', 'staff', '$2y$08$NigAXjN23CRKllqe3KmjYuWXD5iSRPY812SijlhGeKfkrMKde9da6', NULL, NULL, NULL, NULL, NULL, NULL, 1451900439, 1465489590, 1, 'Staff', '');
+(1, '127.0.0.1', 'webmaster', '$2y$08$nWr1SjQu83oHuT216wVNi.ozCKFoC66mlPFXNPP6hvjFVjnbwboq.', NULL, NULL, NULL, NULL, NULL, 'ivCLQBn5vYkFtJA/DrBNL.', 1451900190, 1526917987, 1, 'Webmaster', ''),
+(2, '127.0.0.1', 'admin', '$2y$08$7Bkco6JXtC3Hu6g9ngLZDuHsFLvT7cyAxiz1FzxlX5vwccvRT7nKW', NULL, NULL, NULL, NULL, NULL, 'gz7cdK/UUqTxVKSknFWLI.', 1451900228, 1526914783, 1, 'Admin', ''),
+(5, '::1', 'bry', '$2y$08$nHpv/npi5/np5/S/4c4oauvzI7uXinDIdgCmJlSHM0wBlx6WdPGJ2', NULL, NULL, NULL, NULL, NULL, '6hO44Pqzgi6UIqlkruSvI.', 1526886391, 1526917898, 1, 'bry', 'gorospe');
 
 -- --------------------------------------------------------
 
@@ -110,8 +107,7 @@ CREATE TABLE `admin_users_groups` (
 INSERT INTO `admin_users_groups` (`id`, `user_id`, `group_id`) VALUES
 (1, 1, 1),
 (2, 2, 2),
-(3, 3, 3),
-(4, 4, 4);
+(5, 5, 2);
 
 -- --------------------------------------------------------
 
@@ -194,22 +190,21 @@ CREATE TABLE `dorms` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `latitude` double NOT NULL,
-  `longitude` double NOT NULL
+  `longitude` double NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `isActive` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `dorms`
 --
 
-INSERT INTO `dorms` (`id`, `name`, `latitude`, `longitude`) VALUES
-(1, 'test1', 14.60393, 120.99596210000004),
-(2, 'NS', 14.604679, 120.99615399999993),
-(3, 'paco', 14.579588, 120.99776199999997),
-(4, '', 0, 0),
-(5, '', 0, 0),
-(6, '', 0, 0),
-(7, '', 0, 0),
-(8, 'paulo test', 14.579588, 120.99776199999997);
+INSERT INTO `dorms` (`id`, `name`, `latitude`, `longitude`, `created_by`, `isActive`) VALUES
+(1, 'test1', 14.60393, 120.99596210000004, 0, 1),
+(2, 'NS', 14.604679, 120.99615399999993, 0, 0),
+(3, 'paco', 14.579588, 120.99776199999997, 0, 0),
+(8, 'paulo test', 14.579588, 120.99776199999997, 0, 0),
+(9, 'dorm 2', 14.6056985, 120.99464239999998, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -397,13 +392,13 @@ ALTER TABLE `admin_login_attempts`
 -- AUTO_INCREMENT for table `admin_users`
 --
 ALTER TABLE `admin_users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `admin_users_groups`
 --
 ALTER TABLE `admin_users_groups`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `api_access`
@@ -433,7 +428,7 @@ ALTER TABLE `api_logs`
 -- AUTO_INCREMENT for table `dorms`
 --
 ALTER TABLE `dorms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `groups`

@@ -122,7 +122,7 @@
         var dormsMarker = new Array();
         var dorms = <?php echo json_encode($dorms); ?>;
         
-        for(var i=0;i<2;i++){
+        for(var i=0;i<4;i++){
           dormsMarker.push([dorms[i]['name'], dorms[i]['latitude'], dorms[i]['longitude']]);
         }
 

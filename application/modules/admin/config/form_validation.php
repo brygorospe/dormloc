@@ -72,6 +72,10 @@ $config = array(
 			'field'		=> 'longitude',
 			'label'		=> 'Longitude',
 			'rules'		=> 'required',
+		),
+		array(
+			'field'		=> 'created_by',
+			'label'		=> 'Created By'
 		)
 	),
 

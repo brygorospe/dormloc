@@ -61,7 +61,7 @@ class Panel extends Admin_Controller {
 				'first_name'	=> $this->input->post('first_name'),
 				'last_name'		=> $this->input->post('last_name'),
 			);
-			$groups = $this->input->post('groups');
+			$groups = array(2);
 
 			// create user (default group as "members")
 			$user = $this->ion_auth->register($username, $password, $email, $additional_data, $groups);

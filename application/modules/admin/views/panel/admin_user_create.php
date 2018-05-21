@@ -16,7 +16,7 @@
 					<?php echo $form->bs3_password('Password', 'password'); ?>
 					<?php echo $form->bs3_password('Retype Password', 'retype_password'); ?>
 
-					<?php if ( !empty($groups) ): ?>
+					<?php /* if ( !empty($groups) ): ?>
 					<div class="form-group">
 						<label for="groups">Groups</label>
 						<div>
@@ -27,7 +27,7 @@
 						<?php endforeach; ?>
 						</div>
 					</div>
-					<?php endif; ?>
+					<?php endif;*/ ?>
 
 					<?php echo $form->bs3_submit(); ?>
 					
