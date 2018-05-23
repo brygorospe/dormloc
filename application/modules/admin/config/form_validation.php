@@ -74,8 +74,19 @@ $config = array(
 			'rules'		=> 'required',
 		),
 		array(
-			'field'		=> 'created_by',
-			'label'		=> 'Created By'
+			'field'		=> 'rate',
+			'label'		=> 'Rate',
+			'rules'		=> 'required'
+		),
+		array(
+			'field'		=> 'contact_no',
+			'label'		=> 'Contact No',
+			'rules'		=> 'required'
+		),
+		array(
+			'field'		=> 'contact_name',
+			'label'		=> 'Contact Name',
+			'rules'		=> 'required'
 		)
 	),
 
