@@ -8,7 +8,7 @@ class Home extends MY_Controller {
 
 	public function index()
 	{
-		$query = $this->db->get('dorms'); 
+		$query = $this->db->get_where('dorms', array('isActive' => TRUE)); 
 		$result = $query->result_array();
 
 		$this->mViewData['dorms'] = $result;

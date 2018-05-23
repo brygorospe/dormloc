@@ -97,7 +97,7 @@
       function initAutocomplete() {
         var map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 14.5995124, lng: 120.9842195},
-          zoom: 13,
+          zoom: 15,
           mapTypeId: 'roadmap'
         });
 
@@ -122,8 +122,17 @@
         var dormsMarker = new Array();
         var dorms = <?php echo json_encode($dorms); ?>;
         
-        for(var i=0;i<4;i++){
-          dormsMarker.push([dorms[i]['name'], dorms[i]['latitude'], dorms[i]['longitude']]);
+        for(var i=0;i<dorms.length;i++){
+          dormsMarker.push([dorms[i]['name'], 
+                            dorms[i]['latitude'], 
+                            dorms[i]['longitude'],
+                            dorms[i]['rate'],
+                            dorms[i]['isSharing'],
+                            dorms[i]['size'],
+                            dorms[i]['amenities'],
+                            dorms[i]['policy'],
+                            dorms[i]['contact_no'],
+                            dorms[i]['contact_name']]);
         }
 
         var infowindow = new google.maps.InfoWindow();
@@ -146,7 +155,22 @@
 
     		  google.maps.event.addListener(marker, 'click', (function(marker, i) {
     		    return function() {
-    		      infowindow.setContent(dormsMarker[i][0]);
+              var rate = dormsMarker[i][3];
+              if (rate) {
+                rate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+    		      infowindow.setContent('<div id="content">'+
+                                    '<h4>'+dormsMarker[i][0]+'</h4>'+
+                                    '<div id="bodyContent">'+
+                                    'Rate: '+rate+'<br/>'+
+                                    'Sharing: '+(dormsMarker[i][4] ? "Yes" : "No")+'<br/>'+
+                                    'Room Size: '+dormsMarker[i][5]+'<br/>'+
+                                    'Amenities: '+dormsMarker[i][6]+'<br/>'+
+                                    'Policies: '+dormsMarker[i][7]+'<br/>'+
+                                    'Contact Number: '+dormsMarker[i][8]+'<br/>'+
+                                    'Contact Name: '+dormsMarker[i][9]+'<br/>'+
+                                    '</div>'+
+                                    '</div>');
     		      infowindow.open(map, marker);
     		    }
     		  })(marker, i));

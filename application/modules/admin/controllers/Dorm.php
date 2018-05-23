@@ -23,7 +23,7 @@ class Dorm extends Admin_Controller {
 		$crud->unset_add();
 		$crud->unset_delete();
 		$this->unset_crud_fields('created_by');
-
+		
 		if ($group_id != 1 ) {
 			$crud->columns('name', 'latitude', 'longitude');
 			$crud->where('created_by', $this->session->userdata('user_id'));
