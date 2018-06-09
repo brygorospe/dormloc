@@ -81,9 +81,34 @@
   #target {
     width: 345px;
   }
+
+  .modal a.close-modal{
+    display:none!important;
+  }
+
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
    <div class="container">
-	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+      <div style="padding:10px;">
+        <div>Filter Dorm Price Range: </div>
+        <div>
+          <form action="" method="get">
+            <select id="filter_price" name="filter_price">
+              <option value="">All</option>
+              <option value="1000">1,000 and below</option>
+              <option value="2000">1,001 > 2,000</option>
+              <option value="3000">2,001 > 3,000</option>
+              <option value="4000">3,001 > 4,000</option>
+              <option value="5000">5,000 and above</option>
+            </select>
+            <input type="submit" value="Filter">
+          </form>
+        </div>
+      </div>
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
     <div id="map" style="height:600px;"></div>
     <script>
       // This example adds a search box to a map, using the Google Place Autocomplete
@@ -122,8 +147,27 @@
         var dormsMarker = new Array();
         var dorms = <?php echo json_encode($dorms); ?>;
         
+        var getUrlParameter  = function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
+        var filter_price = getUrlParameter('filter_price');
+        document.getElementById('filter_price').value=filter_price;
+        
         for(var i=0;i<dorms.length;i++){
-          dormsMarker.push([dorms[i]['name'], 
+          if (filter_price){
+            if (dorms[i]['rate'] <= filter_price && dorms[i]['rate'] > filter_price-1000) {
+              dormsMarker.push([dorms[i]['name'], 
                             dorms[i]['latitude'], 
                             dorms[i]['longitude'],
                             dorms[i]['rate'],
@@ -132,7 +176,23 @@
                             dorms[i]['amenities'],
                             dorms[i]['policy'],
                             dorms[i]['contact_no'],
-                            dorms[i]['contact_name']]);
+                            dorms[i]['contact_name'],
+                            dorms[i]['id']]);    
+            }
+          } else {
+            dormsMarker.push([dorms[i]['name'], 
+                            dorms[i]['latitude'], 
+                            dorms[i]['longitude'],
+                            dorms[i]['rate'],
+                            dorms[i]['isSharing'],
+                            dorms[i]['size'],
+                            dorms[i]['amenities'],
+                            dorms[i]['policy'],
+                            dorms[i]['contact_no'],
+                            dorms[i]['contact_name'],
+                            dorms[i]['id']]);    
+          }
+          
         }
 
         var infowindow = new google.maps.InfoWindow();
@@ -160,16 +220,24 @@
                 rate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               }
     		      infowindow.setContent('<div id="content">'+
-                                    '<h4>'+dormsMarker[i][0]+'</h4>'+
-                                    '<div id="bodyContent">'+
-                                    'Rate: '+rate+'<br/>'+
-                                    'Sharing: '+(dormsMarker[i][4] ? "Yes" : "No")+'<br/>'+
-                                    'Room Size: '+dormsMarker[i][5]+'<br/>'+
-                                    'Amenities: '+dormsMarker[i][6]+'<br/>'+
-                                    'Policies: '+dormsMarker[i][7]+'<br/>'+
-                                    'Contact Number: '+dormsMarker[i][8]+'<br/>'+
-                                    'Contact Name: '+dormsMarker[i][9]+'<br/>'+
-                                    '</div>'+
+                                      '<h4 style="font-weight:bold">'+dormsMarker[i][0]+'</h4>'+
+                                      '<div id="bodyContent">'+
+                                        '<b>Room Size:</b> '+dormsMarker[i][5]+'<br/>'+
+                                        '<b>Rate:</b> '+rate+'<br/>'+
+                                        '<br/><p><a href="#ex1" rel="modal:open">See more details</a></p>'+
+                                        '<div id="ex1" class="modal">'+
+                                          '<div class="modal-header">'+
+                                            '<h4 class="modal-title">'+dormsMarker[i][0]+'</h4>'+
+                                          '</div>'+
+                                          '<div class="modal-body">'+
+                                            '<b>Room Sharing:</b> '+(dormsMarker[i][4] ? "Yes" : "No")+'<br/>'+
+                                            '<b>Amenities:</b> '+dormsMarker[i][6]+'<br/>'+
+                                            '<b>Policies:</b> '+dormsMarker[i][7]+'<br/>'+
+                                            '<b>Contact Number:</b> '+dormsMarker[i][8]+'<br/>'+
+                                            '<b>Contact Name:</b> '+dormsMarker[i][9]+'<br/>'+
+                                          '</div>'+
+                                        '</div>'+
+                                      '</div>'+
                                     '</div>');
     		      infowindow.open(map, marker);
     		    }
