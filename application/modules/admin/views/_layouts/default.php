@@ -28,6 +28,11 @@
 			<?php $this->load->view('_partials/back_btn'); ?>
 		</section>
 	</div>
+	<?php 
+		if ($page_title == "Dorms"){
+			$this->load->view('_partials/gmaps_draggable');
+		}
+	?>
 
 	<?php // Footer ?>
 	<?php $this->load->view('_partials/footer'); ?>
