@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2018 at 06:00 PM
+-- Generation Time: Jun 17, 2018 at 06:46 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.4
 
@@ -84,7 +84,7 @@ CREATE TABLE `admin_users` (
 --
 
 INSERT INTO `admin_users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`) VALUES
-(1, '127.0.0.1', 'webmaster', '$2y$08$nWr1SjQu83oHuT216wVNi.ozCKFoC66mlPFXNPP6hvjFVjnbwboq.', NULL, NULL, NULL, NULL, NULL, 'ivCLQBn5vYkFtJA/DrBNL.', 1451900190, 1526917987, 1, 'Webmaster', ''),
+(1, '127.0.0.1', 'webmaster', '$2y$08$nWr1SjQu83oHuT216wVNi.ozCKFoC66mlPFXNPP6hvjFVjnbwboq.', NULL, NULL, NULL, NULL, NULL, '5itL7YCC6GArUwZLGyx5DO', 1451900190, 1529249831, 1, 'Webmaster', ''),
 (2, '127.0.0.1', 'admin', '$2y$08$7Bkco6JXtC3Hu6g9ngLZDuHsFLvT7cyAxiz1FzxlX5vwccvRT7nKW', NULL, NULL, NULL, NULL, NULL, 'gz7cdK/UUqTxVKSknFWLI.', 1451900228, 1526914783, 1, 'Admin', ''),
 (5, '::1', 'bry', '$2y$08$nHpv/npi5/np5/S/4c4oauvzI7uXinDIdgCmJlSHM0wBlx6WdPGJ2', NULL, NULL, NULL, NULL, NULL, '6hO44Pqzgi6UIqlkruSvI.', 1526886391, 1526917898, 1, 'bry', 'gorospe');
 
@@ -192,19 +192,26 @@ CREATE TABLE `dorms` (
   `latitude` double NOT NULL,
   `longitude` double NOT NULL,
   `created_by` int(11) NOT NULL,
-  `isActive` tinyint(1) DEFAULT '0'
+  `isActive` tinyint(1) DEFAULT '0',
+  `isSharing` tinyint(1) NOT NULL DEFAULT '0',
+  `rate` int(11) DEFAULT NULL,
+  `size` varchar(100) DEFAULT NULL,
+  `amenities` text,
+  `policy` text,
+  `room_details` text,
+  `contact_no` varchar(100) NOT NULL,
+  `contact_name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `dorms`
 --
 
-INSERT INTO `dorms` (`id`, `name`, `latitude`, `longitude`, `created_by`, `isActive`) VALUES
-(1, 'test1', 14.60393, 120.99596210000004, 0, 1),
-(2, 'NS', 14.604679, 120.99615399999993, 0, 0),
-(3, 'paco', 14.579588, 120.99776199999997, 0, 0),
-(8, 'paulo test', 14.579588, 120.99776199999997, 0, 0),
-(9, 'dorm 2', 14.6056985, 120.99464239999998, 0, 0);
+INSERT INTO `dorms` (`id`, `name`, `latitude`, `longitude`, `created_by`, `isActive`, `isSharing`, `rate`, `size`, `amenities`, `policy`, `room_details`, `contact_no`, `contact_name`) VALUES
+(1, 'test1', 14.60393, 120.99596210000004, 0, 1, 0, 1000, '20sqm', '<p>\r\n	wifi, pool</p>\r\n', '<p>\r\n	no drugs allowed</p>\r\n', '<p>\r\n	1 available bedroom for sharing</p>\r\n', '123456', 'mang jose'),
+(2, 'NS', 14.604679, 120.99615399999993, 0, 1, 1, 2000, NULL, '<p>\r\n	wifi, aircon</p>\r\n', NULL, NULL, '', ''),
+(3, 'paco', 14.579588, 120.99776199999997, 0, 0, 0, NULL, NULL, 'pool', NULL, NULL, '', ''),
+(9, 'dorm 2', 14.6056985, 120.99464239999998, 0, 0, 0, NULL, NULL, 'aircon', NULL, NULL, '', '');
 
 -- --------------------------------------------------------
 
@@ -380,7 +387,7 @@ ALTER TABLE `users_groups`
 -- AUTO_INCREMENT for table `admin_groups`
 --
 ALTER TABLE `admin_groups`
-  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `admin_login_attempts`
@@ -392,13 +399,13 @@ ALTER TABLE `admin_login_attempts`
 -- AUTO_INCREMENT for table `admin_users`
 --
 ALTER TABLE `admin_users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `admin_users_groups`
 --
 ALTER TABLE `admin_users_groups`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `api_access`
@@ -428,7 +435,7 @@ ALTER TABLE `api_logs`
 -- AUTO_INCREMENT for table `dorms`
 --
 ALTER TABLE `dorms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `groups`

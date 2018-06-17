@@ -13,8 +13,10 @@
 					<?php echo $form->bs3_text('Name', 'name'); ?>
 					<?php echo $form->bs3_text('Size', 'size'); ?>
 					<?php echo $form->bs3_text('Rate', 'rate'); ?>
+					<?php echo $form->bs3_dropdown('Room Sharing', 'isSharing', array(0=>'No', 1=>'Yes')); ?>
 					<?php echo $form->bs3_textarea('Amenities', 'amenities'); ?>
 					<?php echo $form->bs3_textarea('Policy', 'policy'); ?>
+					<?php echo $form->bs3_textarea('Room Details', 'room_details'); ?>
 					<?php echo $form->bs3_text('Contact No.', 'contact_no'); ?>
 					<?php echo $form->bs3_text('Contact Name', 'contact_name'); ?>
 					<?php echo $form->bs3_text('Latitude', 'latitude'); ?>

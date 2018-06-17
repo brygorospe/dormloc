@@ -231,7 +231,12 @@ class Form {
 		$extra['class'] = $class;
 		return $this->btn_submit($label, $extra);
 	}
-	
+	public function bs3_dropdown($label, $name, $options = array(), $selected = array(), $extra = array())
+	{
+		$extra['class'] = 'form-control';
+		return '<div class="form-group">'.form_label($label, $name).$this->field_dropdown($name, $options, $selected, $extra).'</div>';
+	}
+
 	/**
 	 * Success / Error messages
 	 */
