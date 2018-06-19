@@ -45,12 +45,15 @@ class Dorm extends Admin_Controller {
 				'name' => $this->input->post('name'),
 				'latitude' => $this->input->post('latitude'),
 				'longitude' => $this->input->post('longitude'),
-				'longitude' => $this->input->post('rate'),
-				'longitude' => $this->input->post('size'),
-				'longitude' => $this->input->post('amenities'),
-				'longitude' => $this->input->post('policy'),
-				'longitude' => $this->input->post('contact_no'),
-				'longitude' => $this->input->post('contact_name'),
+				'rate' => $this->input->post('rate'),
+				'size' => $this->input->post('size'),
+				'isActive' => $this->input->post('isActive'),
+				'isSharing' => $this->input->post('isSharing'),
+				'amenities' => $this->input->post('amenities'),
+				'policy' => $this->input->post('policy'),
+				'room_details' => $this->input->post('room_details'),
+				'contact_no' => $this->input->post('contact_no'),
+				'contact_name' => $this->input->post('contact_name'),
 				'created_by' => $this->session->userdata('user_id')
 			);
 			
