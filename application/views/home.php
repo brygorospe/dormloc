@@ -119,7 +119,6 @@
 
    <div class="container">
       <div class="div-filter">
-        <div>Filter Dorm </div>
         <form action="" method="get">
           <div class="filter-label">
             <div>
@@ -140,7 +139,8 @@
                 <option value="2000">1,001 > 2,000</option>
                 <option value="3000">2,001 > 3,000</option>
                 <option value="4000">3,001 > 4,000</option>
-                <option value="5000">5,000 and above</option>
+                <option value="5000">4,001 > 5,000</option>
+                <option value="6000">5,001 and above</option>
               </select>
             </div>
             <div>
@@ -183,7 +183,7 @@
           // Bias the SearchBox results towards current map's viewport.
           map.addListener('bounds_changed', function() {
             searchBox.setBounds(map.getBounds());
-          });        
+          });
 
           var schools = [
           	["UST", 14.6096767, 120.9896407],
@@ -222,7 +222,7 @@
             if_sharing = 0;
           }
           if (filter_amenities) {
-            document.getElementById('filter_amenities').value = filter_amenities;
+            document.getElementById('filter_amenities').value = filter_amenities.replace("+", " ");
             if_amenities = filter_amenities;
           }
 
@@ -231,7 +231,7 @@
               if (dorms[i]['rate'] <= filter_price 
                   && dorms[i]['rate'] > filter_price-1000 
                   && dorms[i]['isSharing'] != if_sharing 
-                  && dorms[i]['amenities'].includes(if_amenities)) {
+                  && dorms[i]['amenities'].includes(if_amenities.replace("+", " "))) {
                 dormsMarker.push([dorms[i]['name'], 
                           dorms[i]['latitude'], 
                           dorms[i]['longitude'],
@@ -247,7 +247,7 @@
               }
             } else {
               if (filter_sharing || filter_amenities) {
-                if (dorms[i]['isSharing'] != if_sharing && dorms[i]['amenities'].includes(if_amenities)) {
+                if (dorms[i]['isSharing'] != if_sharing && dorms[i]['amenities'].includes(if_amenities.replace("+", " "))) {
                   dormsMarker.push([dorms[i]['name'], 
                           dorms[i]['latitude'], 
                           dorms[i]['longitude'],

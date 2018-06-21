@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['ci_bootstrap'] = array(
 
 	// Site name
-	'site_name' => 'Dorm Locator',
+	'site_name' => 'Residence Finder',
 
 	// Default page title prefix
 	'page_title_prefix' => '',
