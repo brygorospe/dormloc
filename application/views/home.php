@@ -112,12 +112,27 @@
     width:24%;
   }
 
+  .pointer {
+    cursor: pointer;
+  }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-   <div class="container">
+  <div class="container" style="float:left;width:300px;height:700px;overflow-y:scroll;margin-top:50px;padding-top:10px;">
+    <!--h2>Panel Group</h2>
+    <p>The panel-group class clears the bottom-margin. Try to remove the class and see what happens.</p-->
+    <div class="panel-group" id="panel-group">
+      <!--div class="panel panel-default" onclick="newLocation(14.5995124, 120.9842195);">
+        <div class="panel-heading">Panel Header</div>
+        <div class="panel-body">Panel Content</div>
+      </div-->
+    </div>
+  </div>
+
+   <div class="container" style="padding-left:150px;">
       <div class="div-filter">
         <form action="" method="get">
           <div class="filter-label">
@@ -178,9 +193,21 @@
         // This example requires the Places library. Include the libraries=places
         // parameter when you first load the API. For example:
         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+        var map;
+        var marker, markers = new Array();
+
+        function newLocation(newLat, newLng, i)
+        {
+          map.setCenter({
+            lat : newLat,
+            lng : newLng
+          });
+          console.log(marker);
+          google.maps.event.trigger(markers[i], 'click');
+        }
 
         function initAutocomplete() {
-          var map = new google.maps.Map(document.getElementById('map'), {
+           map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: 14.5995124, lng: 120.9842195},
             zoom: 15,
             mapTypeId: 'roadmap'
@@ -361,7 +388,7 @@
 
           var infowindow = new google.maps.InfoWindow();
               //var schimg = "https://cdn.vectorstock.com/i/1000x1000/04/69/school-map-pointer-icon-marker-gps-location-flag-vector-15450469.jpg";
-      		var marker, i;
+      		var i;
 
       		var schimg = {
       			url: "https://cdn1.iconfinder.com/data/icons/real-estate-set-3/512/3-512.png",
@@ -369,6 +396,8 @@
       			size: new google.maps.Size(20, 32)
       		};
 
+          var div = document.getElementById('panel-group');
+          
           // marker for schools
       		for (i = 0; i < dormsMarker.length; i++) {  
       		  marker = new google.maps.Marker({
@@ -376,7 +405,10 @@
       		    map: map
       		    //icon: schimg
       		  });
+            markers.push(marker);
+            div.innerHTML += '<div class="panel panel-default pointer" onclick="newLocation('+dormsMarker[i][1]+','+dormsMarker[i][2]+','+i+');"><div class="panel-heading">'+dormsMarker[i][0]+'</div><div class="panel-body">'+dormsMarker[i][3]+'</div></div>';
 
+            
       		  google.maps.event.addListener(marker, 'click', (function(marker, i) {
       		    return function() {
                 var rate = dormsMarker[i][3];
