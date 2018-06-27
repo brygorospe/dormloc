@@ -29,7 +29,7 @@
 		</section>
 	</div>
 	<?php 
-		if ($page_title == "Dorms"){
+		if ($page_title == "Residence"){
 			$this->load->view('_partials/gmaps_draggable');
 		}
 	?>

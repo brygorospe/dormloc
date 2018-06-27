@@ -5,7 +5,7 @@
 	<div class="col-md-6">
 		<div class="box box-primary">
 			<div class="box-header">
-				<h3 class="box-title">Dorm Info</h3>
+				<h3 class="box-title">Residence Info</h3>
 			</div>
 			<div class="box-body">
 				<?php echo $form->open(); ?>
@@ -13,7 +13,9 @@
 					<?php echo $form->bs3_text('Name', 'name'); ?>
 					<?php echo $form->bs3_text('Size', 'size'); ?>
 					<?php echo $form->bs3_text('Rate', 'rate'); ?>
+					<?php echo $form->bs3_dropdown('Type', 'type', array('CONDO'=>'Condo', 'APARTMENT'=>'Apartment', 'DORM'=>'Dorm')); ?>
 					<?php echo $form->bs3_dropdown('Room Sharing', 'isSharing', array(0=>'No', 1=>'Yes')); ?>
+					<?php echo $form->bs3_dropdown('Room Availability', 'room_availability', array(1=>'Yes', 0=>'No')); ?>
 					<?php echo $form->bs3_textarea('Amenities', 'amenities'); ?>
 					<?php echo $form->bs3_textarea('Policy', 'policy'); ?>
 					<?php echo $form->bs3_textarea('Room Details', 'room_details'); ?>

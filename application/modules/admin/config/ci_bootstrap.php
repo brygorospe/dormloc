@@ -75,7 +75,7 @@ $config['ci_bootstrap'] = array(
 			)
 		),*/
 		'dorm' => array(
-			'name'		=> 'Dorm',
+			'name'		=> 'Residence',
 			'url'		=> 'dorm',
 			'icon'		=> 'fa fa-users',
 			'children'  => array(

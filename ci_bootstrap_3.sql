@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 17, 2018 at 06:46 PM
+-- Generation Time: Jun 27, 2018 at 05:25 AM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.4
 
@@ -84,9 +84,9 @@ CREATE TABLE `admin_users` (
 --
 
 INSERT INTO `admin_users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`) VALUES
-(1, '127.0.0.1', 'webmaster', '$2y$08$nWr1SjQu83oHuT216wVNi.ozCKFoC66mlPFXNPP6hvjFVjnbwboq.', NULL, NULL, NULL, NULL, NULL, '5itL7YCC6GArUwZLGyx5DO', 1451900190, 1529249831, 1, 'Webmaster', ''),
+(1, '127.0.0.1', 'webmaster', '$2y$08$nWr1SjQu83oHuT216wVNi.ozCKFoC66mlPFXNPP6hvjFVjnbwboq.', NULL, NULL, NULL, NULL, NULL, '5itL7YCC6GArUwZLGyx5DO', 1451900190, 1530069825, 1, 'Webmaster', ''),
 (2, '127.0.0.1', 'admin', '$2y$08$7Bkco6JXtC3Hu6g9ngLZDuHsFLvT7cyAxiz1FzxlX5vwccvRT7nKW', NULL, NULL, NULL, NULL, NULL, 'gz7cdK/UUqTxVKSknFWLI.', 1451900228, 1526914783, 1, 'Admin', ''),
-(5, '::1', 'bry', '$2y$08$nHpv/npi5/np5/S/4c4oauvzI7uXinDIdgCmJlSHM0wBlx6WdPGJ2', NULL, NULL, NULL, NULL, NULL, '6hO44Pqzgi6UIqlkruSvI.', 1526886391, 1526917898, 1, 'bry', 'gorospe');
+(5, '::1', 'bry', '$2y$08$nHpv/npi5/np5/S/4c4oauvzI7uXinDIdgCmJlSHM0wBlx6WdPGJ2', NULL, NULL, NULL, NULL, NULL, '6hO44Pqzgi6UIqlkruSvI.', 1526886391, 1530068920, 1, 'bry', 'gorospe');
 
 -- --------------------------------------------------------
 
@@ -193,7 +193,9 @@ CREATE TABLE `dorms` (
   `longitude` double NOT NULL,
   `created_by` int(11) NOT NULL,
   `isActive` tinyint(1) DEFAULT '0',
+  `type` varchar(32) NOT NULL,
   `isSharing` tinyint(1) NOT NULL DEFAULT '0',
+  `room_availability` tinyint(1) NOT NULL,
   `rate` int(11) DEFAULT NULL,
   `size` varchar(100) DEFAULT NULL,
   `amenities` text,
@@ -207,11 +209,16 @@ CREATE TABLE `dorms` (
 -- Dumping data for table `dorms`
 --
 
-INSERT INTO `dorms` (`id`, `name`, `latitude`, `longitude`, `created_by`, `isActive`, `isSharing`, `rate`, `size`, `amenities`, `policy`, `room_details`, `contact_no`, `contact_name`) VALUES
-(1, 'test1', 14.60393, 120.99596210000004, 0, 1, 0, 1000, '20sqm', '<p>\r\n	wifi, pool</p>\r\n', '<p>\r\n	no drugs allowed</p>\r\n', '<p>\r\n	1 available bedroom for sharing</p>\r\n', '123456', 'mang jose'),
-(2, 'NS', 14.604679, 120.99615399999993, 0, 1, 1, 2000, NULL, '<p>\r\n	wifi, aircon</p>\r\n', NULL, NULL, '', ''),
-(3, 'paco', 14.579588, 120.99776199999997, 0, 0, 0, NULL, NULL, 'pool', NULL, NULL, '', ''),
-(9, 'dorm 2', 14.6056985, 120.99464239999998, 0, 0, 0, NULL, NULL, 'aircon', NULL, NULL, '', '');
+INSERT INTO `dorms` (`id`, `name`, `latitude`, `longitude`, `created_by`, `isActive`, `type`, `isSharing`, `room_availability`, `rate`, `size`, `amenities`, `policy`, `room_details`, `contact_no`, `contact_name`) VALUES
+(1, 'test1', 14.60393, 120.99596210000004, 0, 1, '', 0, 0, 1000, '20sqm', '<p>\r\n	wifi, pool</p>\r\n', '<p>\r\n	no drugs allowed</p>\r\n', '<p>\r\n	1 available bedroom for sharing</p>\r\n', '123456', 'mang jose'),
+(2, 'NS', 14.604679, 120.99615399999993, 0, 1, '', 1, 0, 2000, NULL, '<p>\r\n	wifi, aircon</p>\r\n', NULL, NULL, '', ''),
+(3, 'paco', 14.579588, 120.99776199999997, 0, 0, '', 0, 0, NULL, NULL, 'pool', NULL, NULL, '', ''),
+(9, 'dorm 2', 14.6056985, 120.99464239999998, 0, 0, '', 0, 0, NULL, NULL, 'aircon', NULL, NULL, '', ''),
+(10, 'dorm 1', 14.601671931939022, 0, 1, 0, '', 0, 0, NULL, NULL, NULL, NULL, NULL, '', ''),
+(11, 'dorm 3', 14.601505814850327, 120.98301787036132, 1, NULL, '', 1, 0, 500, '12', 'amenities', 'policy', 'details', '123', 'asd'),
+(12, 'asdjh', 14.60233639903909, 120.98194498675537, 1, 1, '', 0, 0, 4000, '123 sqm', '<p>\r\n	aircon study area event room</p>\r\n', '<p>\r\n	no drinking</p>\r\n', '<p>\r\n	10 rooms</p>\r\n<p>\r\n	5 rooms full</p>\r\n<p>\r\n	2 rooms - 2 slots</p>\r\n<p>\r\n	3 rooms - 1 slot</p>\r\n', '12412', 'asdf'),
+(13, 'paulo', 14.602253340761369, 120.98898310321044, 5, 1, 'APARTMENT', 0, 1, 1500, '123 sqm', '<p>\r\n	pool</p>\r\n', '<p>\r\n	no drinking</p>\r\n', '<p>\r\n	50 rooms</p>\r\n', '1028936', 'paulo'),
+(14, 'bry', 14.60354074054096, 120.98353285449218, 5, 1, 'DORM', 1, 0, 2500, '123 sqm', '<p>\r\n	event</p>\r\n<p>\r\n	room</p>\r\n<p>\r\n	pool</p>\r\n<p>\r\n	wifi</p>\r\n', '<p>\r\n	noasif</p>\r\n', '<p>\r\n	50 rooms</p>\r\n', '19836', 'bry');
 
 -- --------------------------------------------------------
 
@@ -435,7 +442,7 @@ ALTER TABLE `api_logs`
 -- AUTO_INCREMENT for table `dorms`
 --
 ALTER TABLE `dorms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `groups`

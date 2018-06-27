@@ -12,7 +12,7 @@ class Dorm extends Admin_Controller {
 	// Frontend Dorm CRUD
 	public function index()
 	{
-		$crud = $this->generate_crud('dorms');
+		$crud = $this->generate_crud('dorms', 'Residence');
 
 		$this->load->model('Group_model', 'group_model');
 		$group_id = $this->group_model->get_group_id($this->session->userdata('user_id'));
@@ -22,7 +22,7 @@ class Dorm extends Admin_Controller {
 		// disable direct create / delete Frontend Dorm
 		$crud->unset_add();
 		$crud->unset_delete();
-		$this->unset_crud_fields('created_by');
+		$this->unset_crud_fields('created_by', 'type');
 		
 		if ($group_id != 1 ) {
 			$crud->columns('name', 'latitude', 'longitude');
@@ -30,7 +30,7 @@ class Dorm extends Admin_Controller {
 			$this->unset_crud_fields('isActive', 'created_by');
 		}
 		
-		$this->mPageTitle = 'Dorms';
+		$this->mPageTitle = 'Residence';
 		$this->render_crud();
 	}
 
@@ -48,7 +48,9 @@ class Dorm extends Admin_Controller {
 				'rate' => $this->input->post('rate'),
 				'size' => $this->input->post('size'),
 				'isActive' => $this->input->post('isActive'),
+				'type' => $this->input->post('type'),
 				'isSharing' => $this->input->post('isSharing'),
+				'room_availability' => $this->input->post('room_availability'),
 				'amenities' => $this->input->post('amenities'),
 				'policy' => $this->input->post('policy'),
 				'room_details' => $this->input->post('room_details'),
@@ -64,7 +66,7 @@ class Dorm extends Admin_Controller {
 			{
 				// success
 				$messages = $this->ion_auth->messages();
-				$this->system_message->set_success("Dorm Successfully Created");
+				$this->system_message->set_success("Residence Successfully Created");
 			}
 			else
 			{
@@ -75,7 +77,7 @@ class Dorm extends Admin_Controller {
 			refresh();
 		}
 
-		$this->mPageTitle = 'Create Dorm';
+		$this->mPageTitle = 'Create Residence';
 
 		$this->mViewData['form'] = $form;
 		$this->render('dorm/create');

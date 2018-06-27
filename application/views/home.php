@@ -100,7 +100,7 @@
 
   .filter-label div{
     float:left;
-    width:30%;
+    width:24%;
   }
 
   .filter-field {
@@ -109,7 +109,7 @@
 
   .filter-field div{
     float:left;
-    width:30%;
+    width:24%;
   }
 
 </style>
@@ -128,6 +128,9 @@
               Room Sharing:
             </div>
             <div>
+              Room Availability:
+            </div>
+            <div>
               Amenities:
             </div>
           </div>
@@ -144,7 +147,15 @@
               </select>
             </div>
             <div>
-              <input type="checkbox" name="filter_sharing" id="filter_sharing">
+              <!--input type="checkbox" name="filter_sharing" id="filter_sharing"-->
+              <select id="filter_sharing" name="filter_sharing">
+                <option value="">All</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+            <div>
+              <input type="checkbox" name="filter_availability" id="filter_availability">
             </div>
             <div>
               <input type="text" name="filter_amenities" id="filter_amenities">
@@ -185,14 +196,6 @@
             searchBox.setBounds(map.getBounds());
           });
 
-          var schools = [
-          	["UST", 14.6096767, 120.9896407],
-          	["NU", 14.6042605, 120.9943511],
-          	["FEU", 14.6038621, 120.9864347],
-          	["UE", 14.602027, 14.602027],
-          	["AU", 14.599903, 120.9964732]
-          ];
-
           var dormsMarker = new Array();
           var dorms = <?php echo json_encode($dorms); ?>;
           
@@ -213,13 +216,20 @@
           
           var filter_price = getUrlParameter('filter_price');
           var filter_sharing = getUrlParameter('filter_sharing');
+          var filter_availability = getUrlParameter('filter_availability');
           var filter_amenities = getUrlParameter('filter_amenities');
           var if_sharing = null;
+          var if_available = null;
           var if_amenities = "";
           document.getElementById('filter_price').value = filter_price;
-          if (filter_sharing) {
+          document.getElementById('filter_sharing').value = filter_sharing;
+          /*if (filter_sharing) {
             document.getElementById('filter_sharing').checked = 1;
             if_sharing = 0;
+          }*/
+          if (filter_availability) {
+            document.getElementById('filter_availability').checked = 1;
+            if_available = 0;
           }
           if (filter_amenities) {
             document.getElementById('filter_amenities').value = filter_amenities.replace("+", " ");
@@ -228,9 +238,11 @@
 
           for(var i=0;i<dorms.length;i++){
             if (filter_price){
-              if (dorms[i]['rate'] <= filter_price 
+              if (filter_sharing) {
+                if (dorms[i]['rate'] <= filter_price 
                   && dorms[i]['rate'] > filter_price-1000 
-                  && dorms[i]['isSharing'] != if_sharing 
+                  && dorms[i]['isSharing'] != filter_sharing 
+                  && dorms[i]['room_availability'] != if_available 
                   && dorms[i]['amenities'].includes(if_amenities.replace("+", " "))) {
                 dormsMarker.push([dorms[i]['name'], 
                           dorms[i]['latitude'], 
@@ -243,12 +255,16 @@
                           dorms[i]['contact_no'],
                           dorms[i]['contact_name'],
                           dorms[i]['id'],
-                          dorms[i]['room_details']]);  
-              }
-            } else {
-              if (filter_sharing || filter_amenities) {
-                if (dorms[i]['isSharing'] != if_sharing && dorms[i]['amenities'].includes(if_amenities.replace("+", " "))) {
-                  dormsMarker.push([dorms[i]['name'], 
+                          dorms[i]['room_details'],
+                          dorms[i]['type'],
+                          dorms[i]['room_availability']]);
+                }
+              } else {
+                if (dorms[i]['rate'] <= filter_price 
+                  && dorms[i]['rate'] > filter_price-1000 
+                  && dorms[i]['room_availability'] != if_available 
+                  && dorms[i]['amenities'].includes(if_amenities.replace("+", " "))) {
+                dormsMarker.push([dorms[i]['name'], 
                           dorms[i]['latitude'], 
                           dorms[i]['longitude'],
                           dorms[i]['rate'],
@@ -259,10 +275,56 @@
                           dorms[i]['contact_no'],
                           dorms[i]['contact_name'],
                           dorms[i]['id'],
-                          dorms[i]['room_details']]);  
+                          dorms[i]['room_details'],
+                          dorms[i]['type'],
+                          dorms[i]['room_availability']]);
                 }
+              }
+            } else {
+              if (filter_amenities || filter_availability) {
+                if (filter_sharing) {
+                  if (dorms[i]['isSharing'] != filter_sharing
+                    && dorms[i]['room_availability'] != if_available 
+                    && dorms[i]['amenities'].includes(if_amenities.replace("+", " "))) {
+                    dormsMarker.push([dorms[i]['name'], 
+                            dorms[i]['latitude'], 
+                            dorms[i]['longitude'],
+                            dorms[i]['rate'],
+                            dorms[i]['isSharing'],
+                            dorms[i]['size'],
+                            dorms[i]['amenities'],
+                            dorms[i]['policy'],
+                            dorms[i]['contact_no'],
+                            dorms[i]['contact_name'],
+                            dorms[i]['id'],
+                            dorms[i]['room_details'],
+                            dorms[i]['type'],
+                            dorms[i]['room_availability']]);  
+                  }
+                } else {
+                  if (dorms[i]['room_availability'] != if_available 
+                    && dorms[i]['amenities'].includes(if_amenities.replace("+", " "))) {
+                    dormsMarker.push([dorms[i]['name'], 
+                            dorms[i]['latitude'], 
+                            dorms[i]['longitude'],
+                            dorms[i]['rate'],
+                            dorms[i]['isSharing'],
+                            dorms[i]['size'],
+                            dorms[i]['amenities'],
+                            dorms[i]['policy'],
+                            dorms[i]['contact_no'],
+                            dorms[i]['contact_name'],
+                            dorms[i]['id'],
+                            dorms[i]['room_details'],
+                            dorms[i]['type'],
+                            dorms[i]['room_availability']]);  
+                  }
+                }
+                
               } else {
-                dormsMarker.push([dorms[i]['name'], 
+                if (filter_sharing) {
+                  if (dorms[i]['room_availability'] != if_available) {
+                    dormsMarker.push([dorms[i]['name'], 
                               dorms[i]['latitude'], 
                               dorms[i]['longitude'],
                               dorms[i]['rate'],
@@ -273,7 +335,26 @@
                               dorms[i]['contact_no'],
                               dorms[i]['contact_name'],
                               dorms[i]['id'],
-                              dorms[i]['room_details']]);
+                              dorms[i]['room_details'],
+                              dorms[i]['type'],
+                              dorms[i]['room_availability']]);  
+                  }
+                } else {
+                  dormsMarker.push([dorms[i]['name'], 
+                              dorms[i]['latitude'], 
+                              dorms[i]['longitude'],
+                              dorms[i]['rate'],
+                              dorms[i]['isSharing'],
+                              dorms[i]['size'],
+                              dorms[i]['amenities'],
+                              dorms[i]['policy'],
+                              dorms[i]['contact_no'],
+                              dorms[i]['contact_name'],
+                              dorms[i]['id'],
+                              dorms[i]['room_details'],
+                              dorms[i]['type'],
+                              dorms[i]['room_availability']]);
+                }
               }
             }
           }
@@ -315,7 +396,9 @@
                                             '<div class="modal-body">'+
                                               '<b>Room Size:</b> '+dormsMarker[i][5]+'<br/>'+
                                               '<b>Rate:</b> '+rate+'<br/>'+
+                                              '<b>Type:</b> '+dormsMarker[i][12]+'<br/>'+
                                               '<b>Room Sharing:</b> '+(dormsMarker[i][4] == true ? "Yes" : "No")+'<br/>'+
+                                              '<b>Room Available:</b> '+(dormsMarker[i][13] == true ? "Yes" : "No")+'<br/>'+
                                               '<b>Room Details:</b> '+dormsMarker[i][11]+'<br/>'+
                                               '<b>Amenities:</b> '+dormsMarker[i][6]+'<br/>'+
                                               '<b>Policies:</b> '+dormsMarker[i][7]+'<br/>'+
