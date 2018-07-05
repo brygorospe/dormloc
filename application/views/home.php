@@ -406,7 +406,7 @@
       		    //icon: schimg
       		  });
             markers.push(marker);
-            div.innerHTML += '<div class="panel panel-default pointer" onclick="newLocation('+dormsMarker[i][1]+','+dormsMarker[i][2]+','+i+');"><div class="panel-heading">'+dormsMarker[i][0]+'</div><div class="panel-body">'+dormsMarker[i][3]+'</div></div>';
+            div.innerHTML += '<div class="panel panel-primary pointer" onclick="newLocation('+dormsMarker[i][1]+','+dormsMarker[i][2]+','+i+');"><div class="panel-heading">'+dormsMarker[i][0]+'</div><div class="panel-body">'+dormsMarker[i][3]+'</div></div>';
 
             
       		  google.maps.event.addListener(marker, 'click', (function(marker, i) {
