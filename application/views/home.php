@@ -100,7 +100,7 @@
 
   .filter-label div{
     float:left;
-    width:24%;
+    width:20%;
   }
 
   .filter-field {
@@ -109,7 +109,7 @@
 
   .filter-field div{
     float:left;
-    width:24%;
+    width:20%;
   }
 
   .pointer {
@@ -134,10 +134,13 @@
 
    <div class="container" style="padding-left:150px;">
       <div class="div-filter">
-        <form action="" method="get">
+        <form action="" method="POST">
           <div class="filter-label">
             <div>
               Price Range:
+            </div>
+            <div>
+              Filter Type:
             </div>
             <div>
               Room Sharing:
@@ -162,18 +165,29 @@
               </select>
             </div>
             <div>
-              <!--input type="checkbox" name="filter_sharing" id="filter_sharing"-->
+              <select id="filter_type" name="filter_type">
+                <option value="">All</option>
+                <option value="CONDO">Condo</option>
+                <option value="APARTMENT">Apartment</option>
+                <option value="DORM">Dorm</option>
+              </select>
+            </div>
+            <div>
               <select id="filter_sharing" name="filter_sharing">
                 <option value="">All</option>
                 <option value="1">Yes</option>
-                <option value="0">No</option>
+                <option value="FALSE">No</option>
               </select>
             </div>
             <div>
               <input type="checkbox" name="filter_availability" id="filter_availability">
             </div>
             <div>
-              <input type="text" name="filter_amenities" id="filter_amenities">
+              Pool&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities" value="Pool">
+              Wifi&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities" value="Wifi">
+              Event Room&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities" value="Event Room">
+              Canteen&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities" value="Canteen">
+              Study Area&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities" value="Study Area">
             </div>
           </div>
           <div>
@@ -241,15 +255,17 @@
               }
           };
           
-          var filter_price = getUrlParameter('filter_price');
-          var filter_sharing = getUrlParameter('filter_sharing');
-          var filter_availability = getUrlParameter('filter_availability');
+          var filter_price = <?php echo json_encode($filter_price); ?>;
+          var filter_sharing = <?php echo json_encode($filter_sharing); ?>;
+          var filter_availability = <?php echo json_encode($filter_availability); ?>;
+          var filter_type = <?php echo json_encode($filter_type); ?>;
           var filter_amenities = getUrlParameter('filter_amenities');
           var if_sharing = null;
           var if_available = null;
           var if_amenities = "";
           document.getElementById('filter_price').value = filter_price;
           document.getElementById('filter_sharing').value = filter_sharing;
+          document.getElementById('filter_type').value = filter_type;
           /*if (filter_sharing) {
             document.getElementById('filter_sharing').checked = 1;
             if_sharing = 0;
@@ -264,7 +280,7 @@
           }
 
           for(var i=0;i<dorms.length;i++){
-            if (filter_price){
+            /*if (filter_price){
               if (filter_sharing) {
                 if (dorms[i]['rate'] <= filter_price 
                   && dorms[i]['rate'] > filter_price-1000 
@@ -383,7 +399,21 @@
                               dorms[i]['room_availability']]);
                 }
               }
-            }
+            }*/
+            dormsMarker.push([dorms[i]['name'], 
+                              dorms[i]['latitude'], 
+                              dorms[i]['longitude'],
+                              dorms[i]['rate'],
+                              dorms[i]['isSharing'],
+                              dorms[i]['size'],
+                              dorms[i]['amenities'],
+                              dorms[i]['policy'],
+                              dorms[i]['contact_no'],
+                              dorms[i]['contact_name'],
+                              dorms[i]['id'],
+                              dorms[i]['room_details'],
+                              dorms[i]['type'],
+                              dorms[i]['room_availability']]);
           }
 
           var infowindow = new google.maps.InfoWindow();
@@ -418,15 +448,15 @@
       		      infowindow.setContent('<div id="content">'+
                                         '<h4 style="font-weight:bold">'+dormsMarker[i][0]+'</h4>'+
                                         '<div id="bodyContent">'+
-                                          '<b>Room Size:</b> '+dormsMarker[i][5]+'<br/>'+
+                                          //'<b>Room Size:</b> '+dormsMarker[i][5]+'<br/>'+
                                           '<b>Rate:</b> '+rate+'<br/>'+
                                           '<br/><p><a href="#ex1" rel="modal:open">See more details</a></p>'+
-                                          '<div id="ex1" class="modal">'+
+                                          '<div id="ex1" class="modal" style="top:50px;left:500px;">'+
                                             '<div class="modal-header">'+
                                               '<h4 class="modal-title">'+dormsMarker[i][0]+'</h4>'+
                                             '</div>'+
                                             '<div class="modal-body">'+
-                                              '<b>Room Size:</b> '+dormsMarker[i][5]+'<br/>'+
+                                              //'<b>Room Size:</b> '+dormsMarker[i][5]+'<br/>'+
                                               '<b>Rate:</b> '+rate+'<br/>'+
                                               '<b>Type:</b> '+dormsMarker[i][12]+'<br/>'+
                                               '<b>Room Sharing:</b> '+(dormsMarker[i][4] == true ? "Yes" : "No")+'<br/>'+
