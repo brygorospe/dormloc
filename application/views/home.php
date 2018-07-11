@@ -183,11 +183,11 @@
               <input type="checkbox" name="filter_availability" id="filter_availability">
             </div>
             <div>
-              Pool&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities" value="Pool">
-              Wifi&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities" value="Wifi">
-              Event Room&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities" value="Event Room">
-              Canteen&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities" value="Canteen">
-              Study Area&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities" value="Study Area">
+              Pool&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities_pool" value="Pool">
+              Wifi&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities_wifi" value="Wifi">
+              Event Room&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities_eventroom" value="Event Room">
+              Canteen&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities_canteen" value="Canteen">
+              Study Area&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities_studyarea" value="Study Area">
             </div>
           </div>
           <div>
@@ -259,24 +259,21 @@
           var filter_sharing = <?php echo json_encode($filter_sharing); ?>;
           var filter_availability = <?php echo json_encode($filter_availability); ?>;
           var filter_type = <?php echo json_encode($filter_type); ?>;
-          var filter_amenities = getUrlParameter('filter_amenities');
+          var filter_amenities = <?php echo json_encode($filter_amenities); ?>;
           var if_sharing = null;
           var if_available = null;
           var if_amenities = "";
           document.getElementById('filter_price').value = filter_price;
           document.getElementById('filter_sharing').value = filter_sharing;
           document.getElementById('filter_type').value = filter_type;
-          /*if (filter_sharing) {
-            document.getElementById('filter_sharing').checked = 1;
-            if_sharing = 0;
-          }*/
           if (filter_availability) {
             document.getElementById('filter_availability').checked = 1;
-            if_available = 0;
           }
           if (filter_amenities) {
-            document.getElementById('filter_amenities').value = filter_amenities.replace("+", " ");
-            if_amenities = filter_amenities;
+            for (i = 0; i < filter_amenities.length; i++) { 
+              var id = 'filter_amenities_'+filter_amenities[i].replace(/\s/g, '').toLowerCase();
+              document.getElementById(id).checked = 1;
+            }
           }
 
           for(var i=0;i<dorms.length;i++){

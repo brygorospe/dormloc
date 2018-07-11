@@ -54,6 +54,7 @@ class Home extends MY_Controller {
 		$this->mViewData['filter_sharing'] = $filter_sharing;
 		$this->mViewData['filter_availability'] = $filter_availability;
 		$this->mViewData['filter_type'] = $filter_type;
+		$this->mViewData['filter_amenities'] = $filter_amenities;
 		$this->mViewData['dorms'] = $result;
 
 		$this->render('home', 'full_width');
