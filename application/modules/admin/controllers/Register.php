@@ -11,7 +11,7 @@ class Register extends MY_Controller {
 	public function index()
 	{
 		$this->load->library('form_builder');
-		$form = $this->form_builder->create_form();
+		$form = $this->form_builder->create_form(NULL, TRUE);
 
 		if ($this->input->post('username'))
 		{
@@ -29,14 +29,37 @@ class Register extends MY_Controller {
 			// create user (default group as "members")
 			$user = $this->ion_auth->register($username, $password, $email, $additional_data, $groups);
 			
-			if ($user)
-			{
+			if ($user) {
+				$config['upload_path']          = './uploads/users/'.$user.'/';
+			    $config['allowed_types']        = 'gif|jpg|png';
+			    $config['max_size']             = 20;
+			    $config['max_width']            = 1024;
+			    $config['max_height']           = 768;
+				$config['file_name']         	= $user.'.jpg';
+
+				if (!is_dir('./uploads/users/'.$user)) {
+					mkdir('./uploads/users/' . $user, 0777, TRUE);
+				}
+
+			    $this->load->library('upload', $config);
+
+			    if ( ! $this->upload->do_upload('photo')) {
+			    	$error = array('error' => $this->upload->display_errors());
+			        //echo "<pre>";
+			    	//print_r($dorm);
+			    	//die('x');
+			        //$this->load->view('upload_form', $error);
+			    } else {
+			        //$data = array('upload_data' => $this->upload->data());
+					//echo "<pre>";
+			    	//print_r($dorm);
+			    	//die('x');
+			        //$this->load->view('upload_success', $data);
+			    }
 				// success
 				$messages = $this->ion_auth->messages();
 				$this->system_message->set_success($messages);
-			}
-			else
-			{
+			} else {
 				// failed
 				$errors = $this->ion_auth->errors();
 				$this->system_message->set_error($errors);

@@ -37,7 +37,7 @@ class Dorm extends Admin_Controller {
 	// Create Frontend Dorm
 	public function create()
 	{
-		$form = $this->form_builder->create_form();
+		$form = $this->form_builder->create_form(NULL, TRUE);
 
 		if ($form->validate())
 		{
@@ -51,8 +51,8 @@ class Dorm extends Admin_Controller {
 				'type' => $this->input->post('type'),
 				'isSharing' => $this->input->post('isSharing'),
 				'room_availability' => $this->input->post('room_availability'),
-				'amenities' => $this->input->post('amenities'),
-				'policy' => $this->input->post('policy'),
+				'amenities' => implode(", ", $this->input->post('amenities')),
+				'policy' => implode(", ", $this->input->post('policy')),
 				'room_details' => $this->input->post('room_details'),
 				'contact_no' => $this->input->post('contact_no'),
 				'contact_name' => $this->input->post('contact_name'),
@@ -62,14 +62,37 @@ class Dorm extends Admin_Controller {
 			$this->load->model('Dorm_model', 'dorm_model');
 			//Transfering data to Model
 			$dorm = $this->dorm_model->form_insert($data);
-			if ($dorm)
-			{
+			if ($dorm) {
+				$config['upload_path']          = './uploads/dorms/'.$dorm.'/';
+			    $config['allowed_types']        = 'gif|jpg|png';
+			    $config['max_size']             = 20;
+			    $config['max_width']            = 1024;
+			    $config['max_height']           = 768;
+				$config['file_name']         	= $dorm.'.jpg';
+
+				if (!is_dir('./uploads/dorms/'.$dorm)) {
+					mkdir('./uploads/dorms/' . $dorm, 0777, TRUE);
+				}
+
+			    $this->load->library('upload', $config);
+
+			    if ( ! $this->upload->do_upload('photo')) {
+			    	$error = array('error' => $this->upload->display_errors());
+			        //echo "<pre>";
+			    	//print_r($dorm);
+			    	//die('x');
+			        //$this->load->view('upload_form', $error);
+			    } else {
+			        //$data = array('upload_data' => $this->upload->data());
+					//echo "<pre>";
+			    	//print_r($dorm);
+			    	//die('x');
+			        //$this->load->view('upload_success', $data);
+			    }
 				// success
 				$messages = $this->ion_auth->messages();
 				$this->system_message->set_success("Residence Successfully Created");
-			}
-			else
-			{
+			} else {
 				// failed
 				$errors = $this->ion_auth->errors();
 				$this->system_message->set_error("Error Occurred!");
@@ -82,4 +105,22 @@ class Dorm extends Admin_Controller {
 		$this->mViewData['form'] = $form;
 		$this->render('dorm/create');
 	}
+
+	public function do_upload() {
+        $config['upload_path']          = './uploads/';
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['max_size']             = 100;
+        $config['max_width']            = 1024;
+        $config['max_height']           = 768;
+
+        $this->load->library('upload', $config);
+
+        if ( ! $this->upload->do_upload('userfile')) {
+            $error = array('error' => $this->upload->display_errors());
+            $this->load->view('upload_form', $error);
+        } else {
+            $data = array('upload_data' => $this->upload->data());
+			$this->load->view('upload_success', $data);
+        }
+    }
 }

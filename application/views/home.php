@@ -440,9 +440,9 @@
       		    return function() {
                 var rate = dormsMarker[i][3];
                 if (rate) {
-                  rate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  rate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 }
-      		      infowindow.setContent('<div id="content">'+
+                infowindow.setContent('<div id="content">'+
                                         '<h4 style="font-weight:bold">'+dormsMarker[i][0]+'</h4>'+
                                         '<div id="bodyContent">'+
                                           //'<b>Room Size:</b> '+dormsMarker[i][5]+'<br/>'+
@@ -463,6 +463,8 @@
                                               '<b>Policies:</b> '+dormsMarker[i][7]+'<br/>'+
                                               '<b>Contact Number:</b> '+dormsMarker[i][8]+'<br/>'+
                                               '<b>Contact Name:</b> '+dormsMarker[i][9]+'<br/>'+
+                                              '<b>Photo:</b><br/>'+
+                                              '<img src="../uploads/'+dormsMarker[i][10]+'/'+dormsMarker[i][10]+'.jpg'+'" />'+
                                             '</div>'+
                                           '</div>'+
                                         '</div>'+

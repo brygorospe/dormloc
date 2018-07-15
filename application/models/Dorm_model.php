@@ -7,7 +7,9 @@ class Dorm_model extends MY_Model {
 	}
 	
 	function form_insert($data){
-		// Inserting in Table(students) of Database(college)
-		return $this->db->insert('dorms', $data);
+		$this->db->insert('dorms', $data);
+		$insert_id = $this->db->insert_id();
+		
+		return $insert_id;
 	}
 }
