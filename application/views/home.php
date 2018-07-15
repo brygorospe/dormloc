@@ -188,6 +188,7 @@
               Event Room&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities_eventroom" value="Event Room">
               Canteen&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities_canteen" value="Canteen">
               Study Area&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities_studyarea" value="Study Area">
+              Others: <input type="text" name="filter_amenities[]" id="filter_amenities_studyarea" style="max-width:100px;">
             </div>
           </div>
           <div>
@@ -410,7 +411,8 @@
                               dorms[i]['id'],
                               dorms[i]['room_details'],
                               dorms[i]['type'],
-                              dorms[i]['room_availability']]);
+                              dorms[i]['room_availability'],
+                              dorms[i]['created_by']]);
           }
 
           var infowindow = new google.maps.InfoWindow();
@@ -443,6 +445,7 @@
                   rate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 }
                 infowindow.setContent('<div id="content">'+
+                                        '<img src="../uploads/'+dormsMarker[i][14]+'/'+dormsMarker[i][14]+'.jpg'+'" width="50px;" height="50px;" />'+
                                         '<h4 style="font-weight:bold">'+dormsMarker[i][0]+'</h4>'+
                                         '<div id="bodyContent">'+
                                           //'<b>Room Size:</b> '+dormsMarker[i][5]+'<br/>'+
