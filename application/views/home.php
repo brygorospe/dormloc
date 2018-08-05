@@ -180,7 +180,11 @@
               </select>
             </div>
             <div>
-              <input type="checkbox" name="filter_availability" id="filter_availability">
+              <select id="filter_availability" name="filter_availability">
+                <option value="">All</option>
+                <option value="1">Yes</option>
+                <option value="FALSE">No</option>
+              </select>
             </div>
             <div>
               Pool&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities_pool" value="Pool">
@@ -188,7 +192,7 @@
               Event Room&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities_eventroom" value="Event Room">
               Canteen&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities_canteen" value="Canteen">
               Study Area&nbsp<input type="checkbox" name="filter_amenities[]" id="filter_amenities_studyarea" value="Study Area">
-              Others: <input type="text" name="filter_amenities[]" id="filter_amenities_studyarea" style="max-width:100px;">
+              Others: <input type="text" name="filter_amenities_others" id="filter_amenities_others" style="max-width:100px;">
             </div>
           </div>
           <div>
@@ -261,15 +265,15 @@
           var filter_availability = <?php echo json_encode($filter_availability); ?>;
           var filter_type = <?php echo json_encode($filter_type); ?>;
           var filter_amenities = <?php echo json_encode($filter_amenities); ?>;
+          var filter_amenities_others = <?php echo json_encode($filter_amenities_others); ?>;
           var if_sharing = null;
           var if_available = null;
           var if_amenities = "";
           document.getElementById('filter_price').value = filter_price;
           document.getElementById('filter_sharing').value = filter_sharing;
           document.getElementById('filter_type').value = filter_type;
-          if (filter_availability) {
-            document.getElementById('filter_availability').checked = 1;
-          }
+          document.getElementById('filter_availability').value = filter_availability;
+          document.getElementById('filter_amenities_others').value = filter_amenities_others;
           if (filter_amenities) {
             for (i = 0; i < filter_amenities.length; i++) { 
               var id = 'filter_amenities_'+filter_amenities[i].replace(/\s/g, '').toLowerCase();

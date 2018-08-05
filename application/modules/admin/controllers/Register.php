@@ -22,7 +22,7 @@ class Register extends MY_Controller {
 			$additional_data = array(
 				'first_name'	=> $this->input->post('first_name'),
 				'last_name'		=> $this->input->post('last_name'),
-				'active'		=> 0
+				'active'		=> $this->input->post('active')
 			);
 			$groups = array(2);
 
