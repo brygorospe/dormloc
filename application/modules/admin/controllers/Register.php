@@ -15,56 +15,61 @@ class Register extends MY_Controller {
 
 		if ($this->input->post('username'))
 		{
-			// passed validation
-			$username = $this->input->post('username');
-			$email = $this->input->post('email');
-			$password = $this->input->post('password');
-			$additional_data = array(
-				'first_name'	=> $this->input->post('first_name'),
-				'last_name'		=> $this->input->post('last_name'),
-				'active'		=> $this->input->post('active')
-			);
-			$groups = array(2);
+			if ($this->input->post('password') == $this->input->post('retype_password')) {
+				// passed validation
+				$username = $this->input->post('username');
+				$email = $this->input->post('email');
+				$password = $this->input->post('password');
+				$additional_data = array(
+					'first_name'	=> $this->input->post('first_name'),
+					'last_name'		=> $this->input->post('last_name')
+				);
+				$groups = array(2);
 
-			// create user (default group as "members")
-			$user = $this->ion_auth->register($username, $password, $email, $additional_data, $groups);
-			
-			if ($user) {
-				$config['upload_path']          = './uploads/users/'.$user.'/';
-			    $config['allowed_types']        = 'gif|jpg|png';
-			    $config['max_size']             = 20;
-			    $config['max_width']            = 1024;
-			    $config['max_height']           = 768;
-				$config['file_name']         	= $user.'.jpg';
+				// create user (default group as "members")
+				$user = $this->ion_auth->register($username, $password, $email, $additional_data, $groups);
+				
+				if ($user) {
+					$config['upload_path']          = './uploads/users/'.$user.'/';
+				    $config['allowed_types']        = 'gif|jpg|png';
+				    $config['max_size']             = 20;
+				    $config['max_width']            = 1024;
+				    $config['max_height']           = 768;
+					$config['file_name']         	= $user.'.jpg';
 
-				if (!is_dir('./uploads/users/'.$user)) {
-					mkdir('./uploads/users/' . $user, 0777, TRUE);
+					if (!is_dir('./uploads/users/'.$user)) {
+						mkdir('./uploads/users/' . $user, 0777, TRUE);
+					}
+
+				    $this->load->library('upload', $config);
+
+				    if ( ! $this->upload->do_upload('photo')) {
+				    	$error = array('error' => $this->upload->display_errors());
+				        //echo "<pre>";
+				    	//print_r($dorm);
+				    	//die('x');
+				        //$this->load->view('upload_form', $error);
+				    } else {
+				        //$data = array('upload_data' => $this->upload->data());
+						//echo "<pre>";
+				    	//print_r($dorm);
+				    	//die('x');
+				        //$this->load->view('upload_success', $data);
+				    }
+					// success
+					$messages = $this->ion_auth->messages();
+					$this->system_message->set_success($messages);
+				} else {
+					// failed
+					$errors = $this->ion_auth->errors();
+					$this->system_message->set_error($errors);
 				}
+				refresh();
 
-			    $this->load->library('upload', $config);
-
-			    if ( ! $this->upload->do_upload('photo')) {
-			    	$error = array('error' => $this->upload->display_errors());
-			        //echo "<pre>";
-			    	//print_r($dorm);
-			    	//die('x');
-			        //$this->load->view('upload_form', $error);
-			    } else {
-			        //$data = array('upload_data' => $this->upload->data());
-					//echo "<pre>";
-			    	//print_r($dorm);
-			    	//die('x');
-			        //$this->load->view('upload_success', $data);
-			    }
-				// success
-				$messages = $this->ion_auth->messages();
-				$this->system_message->set_success($messages);
 			} else {
-				// failed
-				$errors = $this->ion_auth->errors();
+				$errors = "Password did not match!";
 				$this->system_message->set_error($errors);
 			}
-			refresh();
 		}
 
 		$groups = $this->ion_auth->groups()->result();

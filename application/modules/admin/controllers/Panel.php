@@ -172,15 +172,17 @@ class Panel extends Admin_Controller {
 	{
 		$data = array('password' => $this->input->post('new_password'));
 		if ($this->input->post('new_password')) {
-			if ($this->ion_auth->update($this->mUser->id, $data) && $this->input->post('new_password') != NULL)
-			{
-				$messages = $this->ion_auth->messages();
-				$this->system_message->set_success($messages);
-			}
-			else
-			{
-				$errors = $this->ion_auth->errors();
-				$this->system_message->set_error($errors);
+			if ($this->input->post('new_password') == $this->input->post('retype_password')) {
+				if ($this->ion_auth->update($this->mUser->id, $data) && $this->input->post('new_password') != NULL) {
+					$messages = $this->ion_auth->messages();
+					$this->system_message->set_success($messages);
+				} else {
+					$errors = $this->ion_auth->errors();
+					$this->system_message->set_error($errors);
+				}
+			} else {
+				$errors = "Password did not match!";
+				$this->system_message->set_error($errors);		
 			}
 		} else {
 			$errors = "Please input new password";
