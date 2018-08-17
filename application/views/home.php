@@ -455,7 +455,7 @@
                                           //'<b>Room Size:</b> '+dormsMarker[i][5]+'<br/>'+
                                           '<b>Rate:</b> '+rate+'<br/>'+
                                           '<br/><p><a href="#ex1" rel="modal:open">See more details</a></p>'+
-                                          '<div id="ex1" class="modal" style="top:50px;left:500px;">'+
+                                          '<div id="ex1" class="modal" style="top:50px;left:500px;overflow:scroll;">'+
                                             '<div class="modal-header">'+
                                               '<h4 class="modal-title">'+dormsMarker[i][0]+'</h4>'+
                                             '</div>'+

@@ -12,8 +12,12 @@ class Home extends MY_Controller {
 
 		$filter_price = $this->input->post('filter_price');
 		if ($filter_price) {
-			$whereArr .= " AND rate <= " . $filter_price;
-			$whereArr .= " AND rate > " . ($filter_price - 1000);
+			if ($filter_price == 6000) {
+				$whereArr .= " AND rate > " . ($filter_price - 1000);
+			} else {
+				$whereArr .= " AND rate <= " . $filter_price;
+				$whereArr .= " AND rate > " . ($filter_price - 1000);
+			}
 		}
 
 		$filter_sharing = $this->input->post('filter_sharing');
@@ -28,7 +32,7 @@ class Home extends MY_Controller {
 
 		$filter_type = $this->input->post('filter_type');
 		if ($filter_type) {
-			$whereArr .= " AND type = " . $filter_type;
+			$whereArr .= " AND type = '" . $filter_type . "'";
 		}
 		
 		$filter_amenities = $this->input->post('filter_amenities');
