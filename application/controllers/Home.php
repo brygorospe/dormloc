@@ -8,6 +8,11 @@ class Home extends MY_Controller {
 
 	public function index()
 	{
+		$this->render('home', 'empty');
+
+	}
+
+	public function map() {
 		$whereArr = "isActive = TRUE";
 
 		$filter_price = $this->input->post('filter_price');
@@ -68,7 +73,15 @@ class Home extends MY_Controller {
 		$this->mViewData['filter_amenities_others'] = $filter_amenities_others;
 		$this->mViewData['dorms'] = $result;
 
-		$this->render('home', 'full_width');
-
+		$this->render('map', 'full_width');
 	}
+
+	public function about() {
+		$this->render('about', 'empty');
+	}
+
+	public function contact() {
+		$this->render('contact', 'empty');
+	}
+
 }
